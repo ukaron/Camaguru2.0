@@ -22,7 +22,7 @@ class Controller_Main extends Controller
         $login = $_SESSION['login'];
         if (!file_exists('/resources'))
             mkdir('/resources');
-        if ($_POST['action']) {
+        if ($_POST['action'] == 1) {
             $tmpPath = '/resources/tmp.png';
             $path = '/resources/' . $login . '/' . time() . hash(sha256, $login) . '.png';
             if (!file_exists('./resources/' . $login))

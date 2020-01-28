@@ -122,7 +122,7 @@
                xhr.onreadystatechange = function olol() {
                    if (xhr.readyState === 4)
                        if (xhr.status === 200)
-                           location.reload();
+                           alert("OK");
                };
                xhr.send("action=1");
 

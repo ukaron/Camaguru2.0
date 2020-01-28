@@ -2,7 +2,7 @@
     <div class="main">
         <div class="form">
             <h1>Create account</h1>
-            <form action="sign_up.php" method="POST" name="create">
+            <form action="/sign_up/registr" method="POST" name="create">
                 <table>
                     <tr>
                         <th><input type="text" class="form-control" name="login" id="login"

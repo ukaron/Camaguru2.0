@@ -16,12 +16,6 @@ class connectBD
         $this->DBH = new PDO($this->DB_DSN, $this->DB_USER, $this->DB_PASSWORD, $this->opt);
     }
 
-    public function query($data)
-    {
-        $query = $this->DBH->query($data);
-        $res = $query->fetch();
-        return $res;
-    }
     public function closeConnect()
     {
         $this->DBH = null;
