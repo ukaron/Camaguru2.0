@@ -12,11 +12,12 @@ class Model_Profile extends Model
         $this->login = "ukaron";
         $connect = new connectBD();
         $connect->connect();
-        $data = $connect->query("SELECT login, fname, lname, userpic, info FROM activeUsers WHERE login='".$this->login."';");
-        $this->fname = $data['fname'];
+        $query = $connect->DBH->prepare("SELECT login, fname, lname, userpic, info FROM activeUsers WHERE login = ?");
+        $query->execute(array($this->login_c));
+        $this->fname = 'fname';
         if ($this->fname == null)
             $this->fname = "First name";
-        $this->lname = $data['lname'];;
+        $this->lname = 'lname';
         if ($this->lname == null)
             $this->lname = "Last name";
         $this->userpic = $data['userpic'];;

@@ -1,19 +1,26 @@
 <?php
 class connectBD
 {
-    private $DB_DSN = 'mysql:host=192.168.99.101;port=3307;dbname=cam_users;';
-    private $DB_USER = "root";
-    private $DB_PASSWORD = "root";
     private $opt = [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
     ];
 
-    public $DBH;
-    public $res;
+    public static $DBH;
+
+    public function __construct()
+    {
+        $ini = include('./config/config.php');
+        if (self::$DBH != null)
+            return $this->DBH;
+        $this->DBH = new PDO($ini['host'], $ini['username'], $ini['password'], $this->opt);
+    }
+
 
     public function connect()
     {
-        $this->DBH = new PDO($this->DB_DSN, $this->DB_USER, $this->DB_PASSWORD, $this->opt);
+        if (self::$DBH != null)
+            return $this->DBH;
+        return new self;
     }
 
     public function closeConnect()

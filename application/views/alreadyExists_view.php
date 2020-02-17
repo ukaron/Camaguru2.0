@@ -2,7 +2,7 @@
     <div class="main">
         <div class="form">
             <h1>Sorry! Login already exists </h1><br>
-            <a href="/main">Go to start page</a>
+            <a href="/index">Go to start page</a>
         </div>
     </div>
 </div>

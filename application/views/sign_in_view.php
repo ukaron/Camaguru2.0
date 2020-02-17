@@ -2,6 +2,9 @@
         <div class="main">
             <div class="form">
                 <h1>Sign in</h1>
+                <h2 style="color: red";><?php if(isset($data)){
+                        echo $data;
+                    } ?></h2>
                 <form action="" method="POST" name="sign_in">
                     <table>
                         <tr>
@@ -23,10 +26,5 @@
                 </ul>
             </div>
         </div>
-    </div>
-<?php extract($data); ?>
-<?php if($login_status=="access_granted") { ?>
-    <p>Авторизация прошла успешно.</p>
-<?php } elseif($login_status=="access_denied") { ?>
-    <p>Логин и/или пароль введены неверно.</p>
-<?php } ?>
+</div>
+

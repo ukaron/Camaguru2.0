@@ -7,32 +7,39 @@
     let canvas = null;
     let photo = null;
     let startbutton = null;
+    let contentarea = null;
     let gallery = null;
+    let mergePhoto = null;
+    let mask = null;
 
     function startup() {
         video = document.getElementById('video');
         canvas = document.getElementById('canvas');
         photo = document.getElementById('photo');
         startbutton = document.getElementById('startbutton');
-        gallery = document.getElementById('gallery');
+        contentarea = document.getElementById('contentarea');
+        gallery = document.createElement('div');
+
+        gallery.setAttribute('class', 'gallery');
+        contentarea.appendChild(gallery);
 
         navigator.mediaDevices.getUserMedia({video: true, audio: false})
-            .then(function(stream) {
+            .then(function(stream)
+            {
                 video.srcObject = stream;
                 video.play();
             })
-            .catch(function(err) {
+            .catch(function(err)
+            {
                 console.log("An error occurred: " + err);
             });
 
         video.addEventListener('canplay', function(ev){
-            if (!streaming) {
+            if (!streaming)
+            {
                 height = video.videoHeight / (video.videoWidth/width);
-
-                // Firefox currently has a bug where the height can't be read from
-                // the video, so we will make assumptions if this happens.
-
-                if (isNaN(height)) {
+                if (isNaN(height))
+                {
                     height = width / (4/3);
                 }
 
@@ -41,7 +48,6 @@
                 canvas.setAttribute('width', width);
                 canvas.setAttribute('height', height);
                 streaming = true;
-
             }
         }, false);
 
@@ -51,15 +57,11 @@
         }, false);
 
         clearphoto();
-        let lastNode = gallery.lastChild;
-        lastNode.parentNode.removeChild(lastNode);
 
     }
 
-    // Fill the photo with an indication that none has been
-    // captured.
-
-    function clearphoto() {
+    function clearphoto()
+    {
         let context = canvas.getContext('2d');
         context.fillStyle = "#AAA";
         context.fillRect(0, 0, canvas.width, canvas.height);
@@ -68,10 +70,8 @@
 
     }
 
-
-
     function takepicture() {
-        let mask = document.querySelector("input[name='mask']:checked").value
+        mask = document.querySelector("input[name='mask']:checked").value;
         let context = canvas.getContext('2d');
         if (width && height)
         {
@@ -81,15 +81,17 @@
             let data = canvas.toDataURL('image/png');
             photo.setAttribute('src', data);
             let xhr = new XMLHttpRequest();
-            xhr.open("POST", '/index.php', true);
+            xhr.open("POST", '/index/camshoot', true);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.onreadystatechange = function olol(){
                 if (xhr.readyState === 4)
                     if(xhr.status === 200)
-                        uploadPicture()
+                    {
+                        mergePhoto = xhr.responseText;
+                        uploadPicture();
+                    }
             };
             xhr.send("photo="+ btoa(photo.src)+"&mask="+mask);
-
         }
         else
             {
@@ -99,32 +101,37 @@
 
        function uploadPicture()
        {
+           let newForm = document.createElement('form');
            let newImg = document.createElement('img');
            let inputSave = document.createElement('input');
-           let scriptSave = document.createElement('script');
-           newImg.setAttribute("src", "./resources/tmp.png");
+           let inputHidden = document.createElement('input');
+           newForm.setAttribute('class', 'mergePhoto');
+           newForm.setAttribute('action', './index/save_photo');
+           newForm.setAttribute('method', 'POST');
+           inputHidden.setAttribute('type', 'hidden');
+           inputHidden.setAttribute('name', 'photo');
+           inputHidden.setAttribute('value', btoa('data:image/png;base64, ' + mergePhoto));
+           newImg.setAttribute("src", 'data:image/png;base64, '+mergePhoto);
            newImg.setAttribute('id', 'mergePhoto');
            inputSave.setAttribute('type', 'submit');
-           inputSave.setAttribute('action', './save.php');
-           inputSave.setAttribute('onClick', 'savePhoto()');
+           inputSave.setAttribute('action', './index/save.php');
            inputSave.setAttribute('id', 'buttonSave');
-
-           gallery.appendChild(scriptSave);
-           gallery.appendChild(newImg);
-           gallery.appendChild(inputSave);
-          inputSave.addEventListener('click', savePhoto, false);
+           newForm.appendChild(newImg);
+           newForm.appendChild(inputHidden);
+           newForm.appendChild(inputSave);
+           gallery.appendChild(newForm);
        }
 
       function savePhoto() {
                let xhr = new XMLHttpRequest();
-               xhr.open("POST", '/main/camshoot/', true);
+               xhr.open("POST", '/index/save_photo/', true);
                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                xhr.onreadystatechange = function olol() {
                    if (xhr.readyState === 4)
                        if (xhr.status === 200)
-                           alert("OK");
+                           location.reload();
                };
-               xhr.send("action=1");
+               xhr.send();
 
        }
     window.addEventListener('load', startup, false);
