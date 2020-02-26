@@ -32,7 +32,6 @@ class Controller_Index extends Controller
         {
             $this->model = new Model_Index();
             $this->model->new_photo($_POST);
-
         }
     }
     function action_save_photo()
@@ -49,6 +48,11 @@ class Controller_Index extends Controller
         header('Location:/');
     }
 
+    function action_no_camshoot()
+    {
+        $data = $_FILES;
+        $this->view->generate('test_view.php', 'template_view.php', $data);
+    }
 
 }
 ?>

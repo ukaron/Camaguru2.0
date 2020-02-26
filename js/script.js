@@ -11,11 +11,13 @@
     let gallery = null;
     let mergePhoto = null;
     let mask = null;
+    let userfile = null;
 
     function startup() {
         video = document.getElementById('video');
         canvas = document.getElementById('canvas');
         photo = document.getElementById('photo');
+        userfile = document.getElementById('userfile');
         startbutton = document.getElementById('startbutton');
         contentarea = document.getElementById('contentarea');
         gallery = document.createElement('div');
@@ -93,6 +95,15 @@
             };
             xhr.send("photo="+ btoa(photo.src)+"&mask="+mask);
         }
+        else if (userfile.files !== null)
+        {
+            alert(userfile.files);
+            let formData = new FormData();
+            formData.append("myFile", userfile.files,"a.jpg");
+            let xhr1 = new XMLHttpRequest();
+            xhr1.open("POST", "/index/no_camshoot", true);
+            xhr1.send(formData);
+        }
         else
             {
             clearphoto();
@@ -122,18 +133,6 @@
            gallery.appendChild(newForm);
        }
 
-      function savePhoto() {
-               let xhr = new XMLHttpRequest();
-               xhr.open("POST", '/index/save_photo/', true);
-               xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-               xhr.onreadystatechange = function olol() {
-                   if (xhr.readyState === 4)
-                       if (xhr.status === 200)
-                           location.reload();
-               };
-               xhr.send();
-
-       }
     window.addEventListener('load', startup, false);
 })();
 

@@ -11,8 +11,10 @@
         </form>
     </div>
     <div class="main_block">
-        <form method="post" id='form' name='photo' action="">
+        <form method="post" id='form' name='photo' action="" enctype="multipart/form-data">
             <video id="video" width="320" height="240">Video stream not available.</video>
+            <input id="userfile" name="userfile" type="file" />
+            <input type="hidden" name="MAX_FILE_SIZE" value="30000" />
             <input type="submit" name="file" id="startbutton" value="take photo">
         </form>
     </div>
@@ -26,7 +28,7 @@
         for ($i = 0; $i < count($data['photo']); $i++)
         {
             echo "<div class='user_photo'><img src='".$data['photo'][$i]['path']."' height='90'></div>".PHP_EOL;
-            if ($i == 5)
+            if ($i == 4)
                 break;
         }
         ?>

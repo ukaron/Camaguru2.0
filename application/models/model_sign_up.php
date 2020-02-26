@@ -137,9 +137,9 @@ class Model_Sign_Up extends Model
         $connect = new connectBD();
         $connect->connect();
         $query = $connect->DBH->prepare("SELECT *
-                                                FROM cam_users.admins, cam_users.moderators, cam_users.activeUsers
-                                                WHERE admins.login_a = ? or activeUsers.login = ? or moderators.login_m = ? ;");
-        $query->execute(array($this->login_c,$this->login_c,$this->login_c));
+                                                FROM cam_users.activeUsers
+                                                WHERE activeUsers.login = ? ;");
+        $query->execute(array($this->login_c));
         if (($row_1 = $query->fetch()) == true)
             return false;
         $connect->closeConnect();

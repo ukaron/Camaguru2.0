@@ -16,9 +16,9 @@
                 if(isset($_SESSION['status']))
                 {
                     echo "<li><a href='/index/logout'>Logout</a></li>";
-                    echo "<li><a href='/moder/change_pass'>Change password</a></li>";
                     echo "<li><a href='/profile'>Profile</a></li>";
                     echo "<li><a href='/gallery'>Gallery</a></li>";
+                    echo "<li><a href='/feed'>Feed</a></li>";
                 }
                 else
                         echo '<li><a href="/sign_in">Sign in</a></li>';?>

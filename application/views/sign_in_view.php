@@ -3,8 +3,7 @@
             <div class="form">
                 <h1>Sign in</h1>
                 <h2 style="color: red";><?php if(isset($data)){
-                        echo $data;
-                    } ?></h2>
+                        echo $data;} ?></h2>
                 <form action="" method="POST" name="sign_in">
                     <table>
                         <tr>
@@ -22,7 +21,7 @@
                 </form>
                 <ul id="nav">
                     <li><a href="sign_up">Create an account</a></li>
-                    <li><a href="reset_pass">Forgotten password?</a></li>
+                    <li><a href="/profile/restore_password">Forgotten password?</a></li>
                 </ul>
             </div>
         </div>

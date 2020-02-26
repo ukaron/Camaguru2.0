@@ -23,10 +23,12 @@ class Model_Index extends Model
                 mkdir('./images/user_photo/tmp');
             if (!file_exists('./images/user_photo/tmp/'.$login))
                 mkdir('./images/user_photo/tmp/'.$login);
+            if (!file_exists('./images/user_photo/'.$login))
+                mkdir('./images/user_photo/'.$login);
             $this->pic = file_get_contents(base64_decode($post['photo']));
-            $this->mask = $post['mask'];
             $this->path = './images/user_photo/'.$login.'/tmp1.png';
             file_put_contents($this->path, $this->pic);
+            $this->mask = $post['mask'];
             $pic = imagecreatefrompng($this->path);
             $mask = imagecreatefrompng($this->mask);
             imagealphablending($mask, true);

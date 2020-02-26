@@ -7,7 +7,7 @@
                     echo $data;?></h3>
                     <h6 style="color: red">Your password must be between eight and sixteen alphanumeric characters.</h6>
                 <?php } ?>
-            <form action="<?php echo $_SESSION['status'];?>/change_pass" method="POST" name="sign_in">
+            <form action="/profile/new_pass" method="POST" name="sign_in">
                 <table>
 
                     <tr>
